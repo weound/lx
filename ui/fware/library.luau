@@ -1756,7 +1756,7 @@ function library:button(props)
             Name = "settings_btn",
             Parent = btn,
             BackgroundTransparency = 1,
-            Position = UDim2.new(1, -72, 0, 8),
+            Position = UDim2.new(1, -32, 0, 8),
             Size = UDim2.new(0, 16, 0, 16),
             Image = self:get_icon("settings"),
             ZIndex = 3
