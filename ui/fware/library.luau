@@ -1156,6 +1156,7 @@ function library:tab(props)
     cfg.accent_bar = accent_bar
     cfg.order = order
     cfg.holder = list_frame
+    cfg.tweening_out = false
 
     table.insert(self.tabs, cfg)
 
@@ -1175,9 +1176,15 @@ function library:tab(props)
             old_tab.accent_bar.Visible = false
             old_tab.text_label.TextColor3 = library.themes.preset.placeholder
             
-            old_tab.frame.Visible = false
-            old_tab.frame.Position = UDim2.new(0, 0, 0, 0)
             old_tab.frame.ZIndex = 1
+            old_tab.tweening_out = true
+            tween_service:Create(old_tab.frame, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.In), { Position = UDim2.new(-direction, 0, 0, 0) }):Play()
+            task.delay(0.35, function()
+                if old_tab.tweening_out and old_tab ~= library.current_tab and old_tab.frame and old_tab.frame.Parent then
+                    old_tab.frame.Visible = false
+                    old_tab.frame.Position = UDim2.new(0, 0, 0, 0)
+                end
+            end)
         end
 
         library.current_tab = cfg
@@ -1185,6 +1192,7 @@ function library:tab(props)
         accent_bar.Visible = true
         text_label.TextColor3 = library.themes.preset.text
         
+        cfg.tweening_out = false
         frame.Visible = true
         frame.ZIndex = 2
         frame.Position = UDim2.new(direction, 0, 0, 0)
@@ -2120,8 +2128,8 @@ function library:dropdown(props)
         Name = "icon",
         Parent = dd_btn,
         BackgroundTransparency = 1,
-        Position = UDim2.new(1, -18, 0, 4),
-        Size = UDim2.new(0, 16, 0, 16),
+        Position = UDim2.new(1, -24, 0, 2),
+        Size = UDim2.new(0, 20, 0, 20),
         Image = self:get_icon("down")
     })
 
@@ -2199,7 +2207,7 @@ function library:dropdown(props)
 
     local function toggle_dropdown(open)
         cfg.open = open
-        local max_h = math.clamp(dd_layout.AbsoluteContentSize.Y, 0, 150)
+        local max_h = math.clamp(dd_layout.AbsoluteContentSize.Y + 4, 60, 150)
         local target_h = open and max_h or 0
         
         tween_service:Create(dd_frame, TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), { 
@@ -2214,7 +2222,7 @@ function library:dropdown(props)
             tween_service:Create(dd_list, TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), { Size = UDim2.new(1, 0, 0, target_h) }):Play()
         else
             tween_service:Create(dd_list, TweenInfo.new(0.2, Enum.EasingStyle.Quart, Enum.EasingDirection.In), { Size = UDim2.new(1, 0, 0, 0) }):Play()
-            task.delay(0.2, function() if not cfg.open then dd_list.Visible = false end end)
+            task.delay(0.2, function() if not cfg.open and dd_list and dd_list.Parent then dd_list.Visible = false end end)
         end
     end
 
