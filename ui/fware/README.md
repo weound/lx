@@ -1,5 +1,4 @@
-# femboy-ware
-roblox ui library
+# roblox ui library (femboy-ware)
 
 ## made ts because im bored
-look at example.luau for an example and docs.md for docs
+look at example.luau for example
