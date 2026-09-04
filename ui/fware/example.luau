@@ -1,4 +1,4 @@
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/library.luau"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/weound/lx/main/ui/fware/library.luau"))()
 
 local players = game:GetService("Players")
 local uis = game:GetService("UserInputService")
@@ -9,8 +9,9 @@ local window = library:window({
     subtitle = " - im a subtitle", 
     size = UDim2.new(0, 650, 0, 450),
     icon = "moon",
+    --changelog_url = "",
     discord_link = "discord.gg/example",
-    script_url = "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/refs/heads/main/example.luau"
+    script_url = "https://raw.githubusercontent.com/weound/lx/main/ui/fware/library.luau"
 })
 
 library:loading_screen({ text = "loading...", duration = 3, size = window.size })
