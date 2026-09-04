@@ -1175,13 +1175,9 @@ function library:tab(props)
             old_tab.accent_bar.Visible = false
             old_tab.text_label.TextColor3 = library.themes.preset.placeholder
             
+            old_tab.frame.Visible = false
             old_tab.frame.Position = UDim2.new(0, 0, 0, 0)
             old_tab.frame.ZIndex = 1
-            tween_service:Create(old_tab.frame, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.In), { Position = UDim2.new(-direction, 0, 0, 0) }):Play()
-            task.delay(0.35, function()
-                old_tab.frame.Visible = false
-                old_tab.frame.Position = UDim2.new(0, 0, 0, 0)
-            end)
         end
 
         library.current_tab = cfg
@@ -2129,34 +2125,20 @@ function library:dropdown(props)
         Image = self:get_icon("down")
     })
 
-    local dd_list
-    if #cfg.options > 0 then
-        dd_list = library:create("ScrollingFrame", {
-            Name = "list",
-            Parent = dd_frame,
-            Position = UDim2.new(0, 0, 0, 44),
-            Size = UDim2.new(1, 0, 0, 0),
-            BackgroundColor3 = library.themes.preset.dropdown,
-            BorderSizePixel = 0,
-            Visible = false,
-            CanvasSize = UDim2.new(0, 0, 0, 0),
-            AutomaticCanvasSize = Enum.AutomaticSize.Y,
-            ScrollBarThickness = 4,
-            ScrollBarImageColor3 = library.themes.preset.accent,
-            ClipsDescendants = true
-        })
-    else
-        dd_list = library:create("Frame", {
-            Name = "list",
-            Parent = dd_frame,
-            Position = UDim2.new(0, 0, 0, 44),
-            Size = UDim2.new(1, 0, 0, 0),
-            BackgroundColor3 = library.themes.preset.dropdown,
-            BorderSizePixel = 0,
-            Visible = false,
-            ClipsDescendants = true
-        })
-    end
+    local dd_list = library:create("ScrollingFrame", {
+        Name = "list",
+        Parent = dd_frame,
+        Position = UDim2.new(0, 0, 0, 44),
+        Size = UDim2.new(1, 0, 0, 0),
+        BackgroundColor3 = library.themes.preset.dropdown,
+        BorderSizePixel = 0,
+        Visible = false,
+        CanvasSize = UDim2.new(0, 0, 0, 0),
+        AutomaticCanvasSize = Enum.AutomaticSize.Y,
+        ScrollBarThickness = 4,
+        ScrollBarImageColor3 = library.themes.preset.accent,
+        ClipsDescendants = true
+    })
     library:create("UICorner", { Parent = dd_list, CornerRadius = UDim.new(0, 4) })
     local dd_layout = library:create("UIListLayout", { Parent = dd_list, Padding = UDim.new(0, 2), SortOrder = Enum.SortOrder.LayoutOrder })
     library:create("UIPadding", { Parent = dd_list, PaddingTop = UDim.new(0, 4), PaddingBottom = UDim.new(0, 4), PaddingLeft = UDim.new(0, 4), PaddingRight = UDim.new(0, 4) })
@@ -2190,7 +2172,7 @@ function library:dropdown(props)
                 local name = child.Name
                 local is_selected = false
                 if cfg.multiple then
-                    if table.find(cfg.value, name) then is_selected = true end
+                    if type(cfg.value) == "table" and table.find(cfg.value, name) then is_selected = true end
                 else
                     if cfg.value == name then is_selected = true end
                 end
@@ -2237,11 +2219,11 @@ function library:dropdown(props)
     end
 
     function cfg:refresh(opts)
-        cfg.options = opts
+        cfg.options = opts or {}
         for _, child in next, dd_list:GetChildren() do
             if child:IsA("TextButton") then child:Destroy() end
         end
-        for _, opt in next, opts do
+        for _, opt in next, cfg.options do
             local name = opt
             local icon = nil
             if type(opt) == "table" then
