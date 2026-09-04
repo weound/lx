@@ -196,8 +196,8 @@ function library:get_icon(icon)
     end
 
     local urls = {
-        "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/assets/icons/" .. file_name,
-        "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/assets/" .. file_name
+        "https://raw.githubusercontent.com/weound/lx/main/ui/fware/assets/icons/" .. file_name,
+        "https://raw.githubusercontent.com/weound/lx/main/ui/fware/assets/" .. file_name
     }
 
     for _, url in ipairs(urls) do
@@ -214,8 +214,8 @@ function library:get_icon(icon)
     end
     
     local q_urls = {
-        "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/assets/icons/question.png",
-        "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/assets/question.png"
+        "https://raw.githubusercontent.com/weound/lx/main/ui/fware/assets/icons/question.png",
+        "https://raw.githubusercontent.com/weound/lx/main/ui/fware/assets/question.png"
     }
     for _, q_url in ipairs(q_urls) do
         local q_success, q_data = pcall(function() return game:HttpGet(q_url) end)
@@ -366,8 +366,8 @@ function library:window(props)
         icon = props.icon or "logo",
         discord_link = props.discord_link or "https://discord.gg/yourserver",
         supported_executors = props.supported_executors or {"xeno", "velocity", "solara", "synz", "potassium", "volt", "cosmic", "wave", "madium", "real", "sirhurt", "delta", "codex"},
-        changelog_url = props.changelog_url or "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/changelog.md",
-        script_url = props.script_url or "https://raw.githubusercontent.com/codexvsberserkerxylo/femboy-ware/main/example.luau",
+        changelog_url = props.changelog_url or "https://raw.githubusercontent.com/weound/lx/main/ui/fware/changelog.md",
+        script_url = props.script_url or "https://raw.githubusercontent.com/weound/lx/main/ui/fware/example.luau",
         custom_themes = props.themes or {}
     }
 
