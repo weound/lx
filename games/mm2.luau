@@ -4,6 +4,32 @@
     Licensed under the Non-Commercial Share-Alike License (see LICENSE in the repo root).
 --]]
 
+local function check(func)
+    local f = _G[func] or getfenv(0)[func] or
+    (func == "gethui" and gethui) or 
+    (func == "setclipboard" and setclipboard) or 
+    (func == "Drawing.new" and Drawing and Drawing.new) or 
+    (func == "loadstring" and loadstring) or 
+    (func == "newcclosure" and newcclosure) or 
+    (func == "checkcaller" and checkcaller)
+    
+    if not f or type(f) ~= "function" then
+        warn("your executor does not support '" .. func .. "', bye")
+        return false
+    end
+    return true
+end
+
+local funcs = {"getgenv", "newcclosure", "checkcaller", "loadstring", "gethui", "Drawing.new", "setclipboard"}
+for _, f in ipairs(funcs) do
+    if not check(f) then return end
+end
+
+if not game.HttpGet then
+    warn("your executor does not support 'HttpGet', bye")
+    return
+end
+
 local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/weound/lx/main/ui/fware/library.luau"))()
 
 local players = game:GetService("Players")
