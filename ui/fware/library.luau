@@ -1065,6 +1065,21 @@ function library:tab(props)
         ZIndex = 1
     })
 
+    local page_layout = frame.Parent:FindFirstChild("TabPageLayout")
+    if not page_layout then
+        page_layout = self:create("UIPageLayout", {
+            Name = "TabPageLayout",
+            Parent = frame.Parent,
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            EasingDirection = Enum.EasingDirection.InOut,
+            EasingStyle = Enum.EasingStyle.Quint,
+            TweenTime = 0.35,
+            Padding = UDim.new(0, 0),
+            HorizontalAlignment = Enum.HorizontalAlignment.Center,
+            VerticalAlignment = Enum.VerticalAlignment.Center
+        })
+    end
+
     local list_frame
     if cfg.search_enabled then
         local search_container = self:create("Frame", {
@@ -1165,19 +1180,11 @@ function library:tab(props)
         library:close_popups()
         
         local old_tab = library.current_tab
-        local direction = 1
-        if old_tab and old_tab.order then
-            if old_tab.order < cfg.order then direction = 1 else direction = -1 end
-        end
 
         if old_tab then
             old_tab.button.BackgroundTransparency = 1
             old_tab.accent_bar.Visible = false
             old_tab.text_label.TextColor3 = library.themes.preset.placeholder
-            
-            old_tab.frame.Visible = false
-            old_tab.frame.Position = UDim2.new(0, 0, 0, 0)
-            old_tab.frame.ZIndex = 1
         end
 
         library.current_tab = cfg
@@ -1186,9 +1193,7 @@ function library:tab(props)
         text_label.TextColor3 = library.themes.preset.text
         
         frame.Visible = true
-        frame.ZIndex = 2
-        frame.Position = UDim2.new(direction, 0, 0, 0)
-        tween_service:Create(frame, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), { Position = UDim2.new(0, 0, 0, 0) }):Play()
+        frame.Parent.TabPageLayout:JumpTo(frame)
     end
 
     self:connection(button.MouseButton1Click, function() cfg:select() end)
