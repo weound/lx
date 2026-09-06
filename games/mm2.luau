@@ -30,7 +30,7 @@ if not game.HttpGet then
     return
 end
 
-local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/weound/lx/main/ui/fware/library.luau"))()
+local library = loadstring(game:HttpGet("https://raw.githubusercontent.com/potassiumm/lx/main/ui/fware/library.luau"))()
 
 local players = game:GetService("Players")
 local uis = game:GetService("UserInputService")
@@ -51,9 +51,9 @@ local w = library:window({
     subtitle = " - mm2", 
     size = UDim2.new(0, 650, 0, 450),
     icon = "moon",
-    changelog_url = "https://raw.githubusercontent.com/weound/lx/main/changelogs/mm2.md",
+    changelog_url = "https://raw.githubusercontent.com/potassiumm/lx/main/changelogs/mm2.md",
     discord_link = "discord.gg/n6SzrKpVnU",
-    script_url = "https://raw.githubusercontent.com/weound/lx/main/games/mm2.luau"
+    script_url = "https://raw.githubusercontent.com/potassiumm/lx/main/games/mm2.luau"
 })
 
 local t1 = w:tab({ name = "combat", icon = "swords", search = true })
