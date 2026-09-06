@@ -2,9 +2,9 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
-print("main load")
+print("! main load")
 
-local base = 'https://raw.githubusercontent.com/weound/lx/main/games/'
+local base = 'https://raw.githubusercontent.com/potassiumm/lx/main/games/'
 
 local games = {
     [1848960] = 'mm2.luau',
@@ -23,5 +23,7 @@ local cid = game.CreatorId
 print(cid)
 local file = games[cid]
 if not file then warn("games file not found") return end
-print("// "..file)
+print("! "..file)
 loadstring(game:HttpGet(base .. file))()
+task.wait(0.125)
+print("! ok")
